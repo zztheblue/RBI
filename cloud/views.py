@@ -74,6 +74,9 @@ def handler404(request):
 
 ################ Business UI Control ###################
 def ListFacilities(request, siteID):
+    siteid = models.Sites.objects.filter(userID_id=request.session['id'])[0].siteid
+    faci = models.Facility.objects.get(siteid=siteid)
+    countveri = models.Verification.objects.filter(facility=faci.facilityid).filter(Is_active=0).count()
     count = models.Emailto.objects.filter(Q(Emailt=models.ZUser.objects.filter(id=request.session['id'])[0].email), Q(Is_see=0)).count()
     noti = models.ZNotification.objects.all().filter(id_user=request.session['id'])
     countnoti = noti.filter(state=0).count()
@@ -109,8 +112,11 @@ def ListFacilities(request, siteID):
             return redirect('facilitiesDisplay', siteID)
     except:
         raise Http404
-    return render(request, 'FacilityUI/facility/facilityListDisplay.html', {'page':'listFacility','obj': users,'siteID':siteID,'count':count,'info':request.session,'noti':noti,'countnoti':countnoti})
+    return render(request, 'FacilityUI/facility/facilityListDisplay.html', {'page':'listFacility','obj': users,'siteID':siteID,'count':count,'info':request.session,'noti':noti,'countnoti':countnoti,'countveri':countveri})
 def NewFacilities(request,siteID):
+    siteid = models.Sites.objects.filter(userID_id=request.session['id'])[0].siteid
+    faci = models.Facility.objects.get(siteid=siteid)
+    countveri = models.Verification.objects.filter(facility=faci.facilityid).filter(Is_active=0).count()
     noti = models.ZNotification.objects.all().filter(id_user=request.session['id'])
     countnoti = noti.filter(state=0).count()
     count = models.Emailto.objects.filter(Q(Emailt=models.ZUser.objects.filter(id=request.session['id'])[0].email),
@@ -136,8 +142,11 @@ def NewFacilities(request,siteID):
                 return redirect('facilitiesDisplay',siteID=siteID)
     except:
         raise Http404
-    return render(request, 'FacilityUI/facility/facilityNew.html', {'page':'newFacility','site':site, 'error':error, 'data':data, 'siteID':siteID,'info':request.session,'noti':noti,'countnoti':countnoti,'count':count})
+    return render(request, 'FacilityUI/facility/facilityNew.html', {'page':'newFacility','site':site, 'error':error, 'data':data, 'siteID':siteID,'info':request.session,'noti':noti,'countnoti':countnoti,'count':count,'countveri':countveri})
 def EditFacilities(request,facilityID):
+    siteid = models.Sites.objects.filter(userID_id=request.session['id'])[0].siteid
+    faci = models.Facility.objects.get(siteid=siteid)
+    countveri = models.Verification.objects.filter(facility=faci.facilityid).filter(Is_active=0).count()
     noti = models.ZNotification.objects.all().filter(id_user=request.session['id'])
     countnoti = noti.filter(state=0).count()
     count = models.Emailto.objects.filter(Q(Emailt=models.ZUser.objects.filter(id=request.session['id'])[0].email),
@@ -173,8 +182,11 @@ def EditFacilities(request,facilityID):
                 return redirect('facilitiesDisplay', siteID= dataOld.siteid_id)
     except:
         raise Http404
-    return render(request, 'FacilityUI/facility/facilityEdit.html',{'page':'editFacility','dataNew': dataNew, 'error':error, 'siteID':dataOld.siteid_id,'info':request.session,'noti':noti,'countnoti':countnoti,'count':count})
+    return render(request, 'FacilityUI/facility/facilityEdit.html',{'page':'editFacility','dataNew': dataNew, 'error':error, 'siteID':dataOld.siteid_id,'info':request.session,'noti':noti,'countnoti':countnoti,'count':count,'countveri':countveri})
 def ListDesignCode(request, siteID):
+    siteid = models.Sites.objects.filter(userID_id=request.session['id'])[0].siteid
+    faci = models.Facility.objects.get(siteid=siteid)
+    countveri = models.Verification.objects.filter(facility=faci.facilityid).filter(Is_active=0).count()
     noti = models.ZNotification.objects.all().filter(id_user=request.session['id'])
     countnoti = noti.filter(state=0).count()
     count = models.Emailto.objects.filter(Q(Emailt=models.ZUser.objects.filter(id=request.session['id'])[0].email),
@@ -200,8 +212,11 @@ def ListDesignCode(request, siteID):
             return redirect('designcodeDisplay', siteID= siteID)
     except:
         raise Http404
-    return render(request, 'FacilityUI/design_code/designcodeListDisplay.html', {'page':'listDesign','obj':obj, 'siteID':siteID,'info':request.session,'noti':noti,'countnoti':countnoti,'count':count})
+    return render(request, 'FacilityUI/design_code/designcodeListDisplay.html', {'page':'listDesign','obj':obj, 'siteID':siteID,'info':request.session,'noti':noti,'countnoti':countnoti,'count':count,'countveri':countveri})
 def NewDesignCode(request,siteID):
+    siteid = models.Sites.objects.filter(userID_id=request.session['id'])[0].siteid
+    faci = models.Facility.objects.get(siteid=siteid)
+    countveri = models.Verification.objects.filter(facility=faci.facilityid).filter(Is_active=0).count()
     noti = models.ZNotification.objects.all().filter(id_user=request.session['id'])
     countnoti = noti.filter(state=0).count()
     count = models.Emailto.objects.filter(Q(Emailt=models.ZUser.objects.filter(id=request.session['id'])[0].email),
@@ -221,8 +236,11 @@ def NewDesignCode(request,siteID):
                 return redirect('designcodeDisplay', siteID= siteID)
     except:
         raise Http404
-    return render(request, 'FacilityUI/design_code/designcodeNew.html',{'page':'newDesign','data':data, 'error':error, 'siteID':siteID,'noti':noti,'countnoti':countnoti,'count':count})
+    return render(request, 'FacilityUI/design_code/designcodeNew.html',{'page':'newDesign','data':data, 'error':error, 'siteID':siteID,'noti':noti,'countnoti':countnoti,'count':count,'countveri':countveri})
 def EditDesignCode(request,designcodeID):
+    siteid = models.Sites.objects.filter(userID_id=request.session['id'])[0].siteid
+    faci = models.Facility.objects.get(siteid=siteid)
+    countveri = models.Verification.objects.filter(facility=faci.facilityid).filter(Is_active=0).count()
     noti = models.ZNotification.objects.all().filter(id_user=request.session['id'])
     countnoti = noti.filter(state=0).count()
     count = models.Emailto.objects.filter(Q(Emailt=models.ZUser.objects.filter(id=request.session['id'])[0].email),
@@ -246,8 +264,11 @@ def EditDesignCode(request,designcodeID):
                 return redirect('designcodeDisplay', siteID=dataOld.siteid_id)
     except:
         raise Http404
-    return render(request, 'FacilityUI/design_code/designcodeEdit.html', {'page':'editDesign','data':dataNew, 'error':error, 'siteID':dataOld.siteid_id,'noti':noti,'countnoti':countnoti,'count':count})
+    return render(request, 'FacilityUI/design_code/designcodeEdit.html', {'page':'editDesign','data':dataNew, 'error':error, 'siteID':dataOld.siteid_id,'noti':noti,'countnoti':countnoti,'count':count,'countveri':countveri})
 def ListManufacture(request, siteID):
+    siteid = models.Sites.objects.filter(userID_id=request.session['id'])[0].siteid
+    faci = models.Facility.objects.get(siteid=siteid)
+    countveri = models.Verification.objects.filter(facility=faci.facilityid).filter(Is_active=0).count()
     noti = models.ZNotification.objects.all().filter(id_user=request.session['id'])
     countnoti = noti.filter(state=0).count()
     count = models.Emailto.objects.filter(Q(Emailt=models.ZUser.objects.filter(id=request.session['id'])[0].email),
@@ -273,8 +294,11 @@ def ListManufacture(request, siteID):
             return redirect('manufactureDisplay', siteID= siteID)
     except:
         raise Http404
-    return render(request, 'FacilityUI/manufacture/manufactureListDisplay.html', {'page':'listManu','obj':obj, 'siteID':siteID,'noti':noti,'countnoti':countnoti,'count':count})
+    return render(request, 'FacilityUI/manufacture/manufactureListDisplay.html', {'page':'listManu','obj':obj, 'siteID':siteID,'noti':noti,'countnoti':countnoti,'count':count,'countveri':countveri})
 def NewManufacture(request, siteID):
+    siteid = models.Sites.objects.filter(userID_id=request.session['id'])[0].siteid
+    faci = models.Facility.objects.get(siteid=siteid)
+    countveri = models.Verification.objects.filter(facility=faci.facilityid).filter(Is_active=0).count()
     noti = models.ZNotification.objects.all().filter(id_user=request.session['id'])
     countnoti = noti.filter(state=0).count()
     count = models.Emailto.objects.filter(Q(Emailt=models.ZUser.objects.filter(id=request.session['id'])[0].email),
@@ -293,8 +317,11 @@ def NewManufacture(request, siteID):
                 return redirect('manufactureDisplay', siteID= siteID)
     except:
         raise Http404
-    return render(request, 'FacilityUI/manufacture/manufactureNew.html', {'page':'newManu','data':data, 'error':error, 'siteID':siteID,'noti':noti,'countnoti':countnoti,'count':count})
+    return render(request, 'FacilityUI/manufacture/manufactureNew.html', {'page':'newManu','data':data, 'error':error, 'siteID':siteID,'noti':noti,'countnoti':countnoti,'count':count,'countveri':countveri})
 def EditManufacture(request, manufactureID):
+    siteid = models.Sites.objects.filter(userID_id=request.session['id'])[0].siteid
+    faci = models.Facility.objects.get(siteid=siteid)
+    countveri = models.Verification.objects.filter(facility=faci.facilityid).filter(Is_active=0).count()
     noti = models.ZNotification.objects.all().filter(id_user=request.session['id'])
     countnoti = noti.filter(state=0).count()
     count = models.Emailto.objects.filter(Q(Emailt=models.ZUser.objects.filter(id=request.session['id'])[0].email),
@@ -315,8 +342,11 @@ def EditManufacture(request, manufactureID):
                 return redirect('manufactureDisplay', siteID= dataOld.siteid_id)
     except:
         raise Http404
-    return render(request, 'FacilityUI/manufacture/manufactureEdit.html', {'page':'editManu','data': dataNew, 'error': error , 'siteID':dataOld.siteid_id,'noti':noti,'countnoti':countnoti,'count':count})
+    return render(request, 'FacilityUI/manufacture/manufactureEdit.html', {'page':'editManu','data': dataNew, 'error': error , 'siteID':dataOld.siteid_id,'noti':noti,'countnoti':countnoti,'count':count,'countveri':countveri})
 def ListEquipment(request, facilityID):
+    siteid = models.Sites.objects.filter(userID_id=request.session['id'])[0].siteid
+    faci = models.Facility.objects.get(siteid=siteid)
+    countveri = models.Verification.objects.filter(facility=faci.facilityid).filter(Is_active=0).count()
     noti = models.ZNotification.objects.all().filter(id_user=request.session['id'])
     countnoti = noti.filter(state=0).count()
     count = models.Emailto.objects.filter(Q(Emailt=models.ZUser.objects.filter(id=request.session['id'])[0].email),
@@ -344,8 +374,11 @@ def ListEquipment(request, facilityID):
     except Exception as e:
         print(e)
         raise Http404
-    return render(request, 'FacilityUI/equipment/equipmentListDisplay.html', {'page':'listEquip','obj':obj, 'facilityID':facilityID, 'siteID':faci.siteid_id,'faci':faci,'info':request.session,'noti':noti,'countnoti':countnoti,'count':count})
+    return render(request, 'FacilityUI/equipment/equipmentListDisplay.html', {'page':'listEquip','obj':obj, 'facilityID':facilityID, 'siteID':faci.siteid_id,'faci':faci,'info':request.session,'noti':noti,'countnoti':countnoti,'count':count,'countveri':countveri})
 def NewEquipment(request, facilityID):
+    siteid = models.Sites.objects.filter(userID_id=request.session['id'])[0].siteid
+    faci = models.Facility.objects.get(siteid=siteid)
+    countveri = models.Verification.objects.filter(facility=faci.facilityid).filter(Is_active=0).count()
     noti = models.ZNotification.objects.all().filter(id_user=request.session['id'])
     countnoti = noti.filter(state=0).count()
     count = models.Emailto.objects.filter(Q(Emailt=models.ZUser.objects.filter(id=request.session['id'])[0].email),
@@ -378,8 +411,11 @@ def NewEquipment(request, facilityID):
                 return redirect('equipmentDisplay', facilityID= facilityID)
     except:
         raise Http404
-    return render(request, 'FacilityUI/equipment/equipmentNew.html', {'page':'newEquip','data':data, 'equipmenttype': equipmenttype, 'designcode':designcode, 'manufacture':manufacture, 'facilityID':facilityID, 'siteID':faci.siteid_id,'info':request.session,'noti':noti,'countnoti':countnoti,'count':count})
+    return render(request, 'FacilityUI/equipment/equipmentNew.html', {'page':'newEquip','data':data, 'equipmenttype': equipmenttype, 'designcode':designcode, 'manufacture':manufacture, 'facilityID':facilityID, 'siteID':faci.siteid_id,'info':request.session,'noti':noti,'countnoti':countnoti,'count':count,'countveri':countveri})
 def EditEquipment(request, equipmentID):
+    siteid = models.Sites.objects.filter(userID_id=request.session['id'])[0].siteid
+    faci = models.Facility.objects.get(siteid=siteid)
+    countveri = models.Verification.objects.filter(facility=faci.facilityid).filter(Is_active=0).count()
     noti = models.ZNotification.objects.all().filter(id_user=request.session['id'])
     countnoti = noti.filter(state=0).count()
     count = models.Emailto.objects.filter(Q(Emailt=models.ZUser.objects.filter(id=request.session['id'])[0].email),
@@ -424,8 +460,11 @@ def EditEquipment(request, equipmentID):
                 return redirect('equipmentDisplay', facilityID=dataOld.facilityid_id)
     except:
         raise Http404
-    return render(request, 'FacilityUI/equipment/equipmentEdit.html', {'page':'editEquip','data': dataNew, 'error':error, 'designcode':designcode, 'manufacture':manufacture, 'facilityID':dataOld.facilityid_id, 'siteID':dataOld.siteid_id,'info':request.session,'noti':noti,'countnoti':countnoti,'count':count})
+    return render(request, 'FacilityUI/equipment/equipmentEdit.html', {'page':'editEquip','data': dataNew, 'error':error, 'designcode':designcode, 'manufacture':manufacture, 'facilityID':dataOld.facilityid_id, 'siteID':dataOld.siteid_id,'info':request.session,'noti':noti,'countnoti':countnoti,'count':count,'countveri':countveri})
 def ListComponent(request, equipmentID):
+    siteid = models.Sites.objects.filter(userID_id=request.session['id'])[0].siteid
+    faci = models.Facility.objects.get(siteid=siteid)
+    countveri = models.Verification.objects.filter(facility=faci.facilityid).filter(Is_active=0).count()
     noti = models.ZNotification.objects.all().filter(id_user=request.session['id'])
     countnoti = noti.filter(state=0).count()
     count = models.Emailto.objects.filter(Q(Emailt=models.ZUser.objects.filter(id=request.session['id'])[0].email),
@@ -453,8 +492,11 @@ def ListComponent(request, equipmentID):
             return  redirect('componentDisplay', equipmentID= equipmentID)
     except:
         raise Http404
-    return render(request, 'FacilityUI/component/componentListDisplay.html', {'page':'listComp','obj':obj, 'equipmentID':equipmentID, 'facilityID': eq.facilityid_id,'eq':eq,'faci':faci,'info':request.session,'noti':noti,'countnoti':countnoti,'count':count})
+    return render(request, 'FacilityUI/component/componentListDisplay.html', {'page':'listComp','obj':obj, 'equipmentID':equipmentID, 'facilityID': eq.facilityid_id,'eq':eq,'faci':faci,'info':request.session,'noti':noti,'countnoti':countnoti,'count':count,'countveri':countveri})
 def NewComponent(request, equipmentID):
+    siteid = models.Sites.objects.filter(userID_id=request.session['id'])[0].siteid
+    faci = models.Facility.objects.get(siteid=siteid)
+    countveri = models.Verification.objects.filter(facility=faci.facilityid).filter(Is_active=0).count()
     noti = models.ZNotification.objects.all().filter(id_user=request.session['id'])
     countnoti = noti.filter(state=0).count()
     count = models.Emailto.objects.filter(Q(Emailt=models.ZUser.objects.filter(id=request.session['id'])[0].email),
@@ -492,8 +534,11 @@ def NewComponent(request, equipmentID):
                 return redirect('componentDisplay', equipmentID= equipmentID)
     except:
         raise Http404
-    return render(request, 'FacilityUI/component/componentNew.html', {'page':'newComp','error':error, 'componenttype': componentType, 'api':apicomponentType,'other':other, 'data':data, 'equipmentID':equipmentID, 'facilityID': eq.facilityid_id,'noti':noti,'countnoti':countnoti,'count':count})
+    return render(request, 'FacilityUI/component/componentNew.html', {'page':'newComp','error':error, 'componenttype': componentType, 'api':apicomponentType,'other':other, 'data':data, 'equipmentID':equipmentID, 'facilityID': eq.facilityid_id,'noti':noti,'countnoti':countnoti,'count':count,'countveri':countveri})
 def EditComponent(request, componentID):
+    siteid = models.Sites.objects.filter(userID_id=request.session['id'])[0].siteid
+    faci = models.Facility.objects.get(siteid=siteid)
+    countveri = models.Verification.objects.filter(facility=faci.facilityid).filter(Is_active=0).count()
     noti = models.ZNotification.objects.all().filter(id_user=request.session['id'])
     countnoti = noti.filter(state=0).count()
     count = models.Emailto.objects.filter(Q(Emailt=models.ZUser.objects.filter(id=request.session['id'])[0].email),
@@ -528,8 +573,11 @@ def EditComponent(request, componentID):
                 return redirect('componentDisplay', equipmentID= dataOld.equipmentid_id)
     except:
         raise Http404
-    return render(request, 'FacilityUI/component/componentEdit.html', {'page':'editComp','data':dataNew, 'error':error, 'equipmentID':dataOld.equipmentid_id,'noti':noti,'countnoti':countnoti,'count':count, 'facilityID': models.EquipmentMaster.objects.get(equipmentid= dataOld.equipmentid_id).facilityid_id})
+    return render(request, 'FacilityUI/component/componentEdit.html', {'page':'editComp','data':dataNew, 'error':error, 'equipmentID':dataOld.equipmentid_id,'noti':noti,'countnoti':countnoti,'count':count,'countveri':countveri,'facilityID': models.EquipmentMaster.objects.get(equipmentid= dataOld.equipmentid_id).facilityid_id})
 def ListProposal(request, componentID):
+    siteid = models.Sites.objects.filter(userID_id=request.session['id'])[0].siteid
+    faci = models.Facility.objects.get(siteid=siteid)
+    countveri = models.Verification.objects.filter(facility=faci.facilityid).filter(Is_active=0).count()
     noti = models.ZNotification.objects.all().filter(id_user=request.session['id'])
     countnoti = noti.filter(state=0).count()
     count = models.Emailto.objects.filter(Q(Emailt=models.ZUser.objects.filter(id=request.session['id'])[0].email),
@@ -610,8 +658,11 @@ def ListProposal(request, componentID):
         raise Http404
     return render(request, 'FacilityUI/proposal/proposalListDisplay.html', {'page':'listProposal','obj':obj, 'istank': istank, 'isshell':isshell,
                                                                             'componentID':componentID,
-                                                                            'equipmentID':comp.equipmentid_id,'comp':comp,'equip':equip,'faci':faci,'info':request.session,'noti':noti,'countnoti':countnoti,'count':count})
+                                                                            'equipmentID':comp.equipmentid_id,'comp':comp,'equip':equip,'faci':faci,'info':request.session,'noti':noti,'countnoti':countnoti,'count':count,'countveri':countveri})
 def NewProposal(request, componentID):
+    siteid = models.Sites.objects.filter(userID_id=request.session['id'])[0].siteid
+    faci = models.Facility.objects.get(siteid=siteid)
+    countveri = models.Verification.objects.filter(facility=faci.facilityid).filter(Is_active=0).count()
     noti = models.ZNotification.objects.all().filter(id_user=request.session['id'])
     countnoti = noti.filter(state=0).count()
     count = models.Emailto.objects.filter(Q(Emailt=models.ZUser.objects.filter(id=request.session['id'])[0].email),
@@ -1054,8 +1105,11 @@ def NewProposal(request, componentID):
             return redirect('damgeFactor', proposalID= rwassessment.id)
     except Exception as e:
         raise Http404
-    return render(request, 'FacilityUI/proposal/proposalNormalNew.html',{'page':'newProposal','api':Fluid, 'componentID':componentID, 'equipmentID':comp.equipmentid_id,'info':request.session,'noti':noti,'countnoti':countnoti,'count':count})
+    return render(request, 'FacilityUI/proposal/proposalNormalNew.html',{'page':'newProposal','api':Fluid, 'componentID':componentID, 'equipmentID':comp.equipmentid_id,'info':request.session,'noti':noti,'countnoti':countnoti,'count':count,'countveri':countveri})
 def NewTank(request, componentID):
+    siteid = models.Sites.objects.filter(userID_id=request.session['id'])[0].siteid
+    faci = models.Facility.objects.get(siteid=siteid)
+    countveri = models.Verification.objects.filter(facility=faci.facilityid).filter(Is_active=0).count()
     noti = models.ZNotification.objects.all().filter(id_user=request.session['id'])
     countnoti = noti.filter(state=0).count()
     count = models.Emailto.objects.filter(Q(Emailt=models.ZUser.objects.filter(id=request.session['id'])[0].email),
@@ -2006,8 +2060,11 @@ def EditProposal(request, proposalID):
                                                                            'rwCoat':rwcoat, 'rwMaterial':rwmaterial, 'rwInputCa':rwinputca,
                                                                            'assDate':assDate, 'extDate':extDate,
                                                                            'componentID': rwassessment.componentid_id,
-                                                                           'equipmentID': rwassessment.equipmentid_id,'info':request.session,'noti':noti,'countnoti':countnoti,'count':count})
+                                                                           'equipmentID': rwassessment.equipmentid_id,'info':request.session,'noti':noti,'countnoti':countnoti,'count':count,'countveri':countveri})
 def EditTank(request, proposalID):
+    siteid = models.Sites.objects.filter(userID_id=request.session['id'])[0].siteid
+    faci = models.Facility.objects.get(siteid=siteid)
+    countveri = models.Verification.objects.filter(facility=faci.facilityid).filter(Is_active=0).count()
     noti = models.ZNotification.objects.all().filter(id_user=request.session['id'])
     countnoti = noti.filter(state=0).count()
     count = models.Emailto.objects.filter(Q(Emailt=models.ZUser.objects.filter(id=request.session['id'])[0].email),
@@ -2505,8 +2562,11 @@ def EditTank(request, proposalID):
                                                                          'rwCoat':rwcoat, 'rwMaterial':rwmaterial, 'rwInputCa':rwinputca,
                                                                          'assDate': assDate, 'extDate': extDate,
                                                                          'componentID': comp.componentid,
-                                                                         'equipmentID': comp.equipmentid_id,'info':request.session,'noti':noti,'countnoti':countnoti,'count':count})
+                                                                         'equipmentID': comp.equipmentid_id,'info':request.session,'noti':noti,'countnoti':countnoti,'count':count,'countveri':countveri})
 def RiskMatrix(request, proposalID):
+    siteid = models.Sites.objects.filter(userID_id=request.session['id'])[0].siteid
+    faci = models.Facility.objects.get(siteid=siteid)
+    countveri = models.Verification.objects.filter(facility=faci.facilityid).filter(Is_active=0).count()
     noti = models.ZNotification.objects.all().filter(id_user=request.session['id'])
     countnoti = noti.filter(state=0).count()
     count = models.Emailto.objects.filter(Q(Emailt=models.ZUser.objects.filter(id=request.session['id'])[0].email),
@@ -2545,8 +2605,11 @@ def RiskMatrix(request, proposalID):
         raise Http404
     return render(request, 'FacilityUI/risk_summary/riskMatrix.html',{'page':'riskMatrix' ,'API1':location.locat(df.totaldfap1, ca.fcofvalue), 'API2':location.locat(df.totaldfap2, ca.fcofvalue),
                                                                       'API3':location.locat(df.totaldfap3, ca.fcofvalue),'DF1': DF1,'DF2': DF2,'DF3': DF3, 'ca':Ca,
-                                                                      'ass':rwAss,'isTank': isTank, 'isShell': isShell, 'df':df, 'proposalID':proposalID,'info':request.session,'noti':noti,'countnoti':countnoti,'count':count})
+                                                                      'ass':rwAss,'isTank': isTank, 'isShell': isShell, 'df':df, 'proposalID':proposalID,'info':request.session,'noti':noti,'countnoti':countnoti,'count':count,'countveri':countveri})
 def FullyDamageFactor(request, proposalID):
+    siteid = models.Sites.objects.filter(userID_id=request.session['id'])[0].siteid
+    faci = models.Facility.objects.get(siteid=siteid)
+    countveri = models.Verification.objects.filter(facility=faci.facilityid).filter(Is_active=0).count()
     noti = models.ZNotification.objects.all().filter(id_user=request.session['id'])
     countnoti = noti.filter(state=0).count()
     count = models.Emailto.objects.filter(Q(Emailt=models.ZUser.objects.filter(id=request.session['id'])[0].email),
@@ -2609,8 +2672,11 @@ def FullyDamageFactor(request, proposalID):
         print(e)
         raise Http404
     return render(request, 'FacilityUI/risk_summary/dfFull.html', {'page':'damageFactor', 'obj':data, 'assess': rwAss, 'isTank': isTank,
-                                                                   'isShell': isShell, 'proposalID':proposalID,'info':request.session,'noti':noti,'countnoti':countnoti,'count':count})
+                                                                   'isShell': isShell, 'proposalID':proposalID,'info':request.session,'noti':noti,'countnoti':countnoti,'count':count,'countveri':countveri})
 def FullyConsequence(request, proposalID):
+    siteid = models.Sites.objects.filter(userID_id=request.session['id'])[0].siteid
+    faci = models.Facility.objects.get(siteid=siteid)
+    countveri = models.Verification.objects.filter(facility=faci.facilityid).filter(Is_active=0).count()
     data = {}
     noti = models.ZNotification.objects.all().filter(id_user=request.session['id'])
     countnoti = noti.filter(state=0).count()
@@ -2656,7 +2722,7 @@ def FullyConsequence(request, proposalID):
             data['business_cost'] = roundData.roundMoney(bottomConsequences.business_cost)
             data['consequence'] = roundData.roundMoney(bottomConsequences.consequence)
             data['consequencecategory'] = bottomConsequences.consequencecategory
-            return render(request, 'FacilityUI/risk_summary/fullyBottomConsequence.html', {'page':'fullyConse', 'data': data, 'proposalID':proposalID, 'ass':rwAss,'info':request.session,'noti':noti,'countnoti':countnoti,'count':count})
+            return render(request, 'FacilityUI/risk_summary/fullyBottomConsequence.html', {'page':'fullyConse', 'data': data, 'proposalID':proposalID, 'ass':rwAss,'info':request.session,'noti':noti,'countnoti':countnoti,'count':count,'countveri':countveri})
         elif isShell:
             shellConsequences = models.RwCaTank.objects.get(id=proposalID)
             data['flow_rate_d1'] = roundData.roundFC(shellConsequences.flow_rate_d1)
@@ -2688,7 +2754,7 @@ def FullyConsequence(request, proposalID):
             data['business_cost'] = roundData.roundMoney(shellConsequences.business_cost)
             data['consequence'] = roundData.roundMoney(shellConsequences.consequence)
             data['consequencecategory'] = shellConsequences.consequencecategory
-            return render(request, 'FacilityUI/risk_summary/fullyShellConsequence.html', {'page':'fullyConse' , 'data': data, 'proposalID':proposalID, 'ass':rwAss,'info':request.session,'noti':noti,'countnoti':countnoti,'count':count})
+            return render(request, 'FacilityUI/risk_summary/fullyShellConsequence.html', {'page':'fullyConse' , 'data': data, 'proposalID':proposalID, 'ass':rwAss,'info':request.session,'noti':noti,'countnoti':countnoti,'count':count,'countveri':countveri})
         else:
             ca = models.RwCaLevel1.objects.get(id= proposalID)
             inputCa = models.RwInputCaLevel1.objects.get(id= proposalID)
@@ -2705,10 +2771,13 @@ def FullyConsequence(request, proposalID):
             data['fc_envi'] = roundData.roundMoney(ca.fc_envi)
             data['fc_total'] = roundData.roundMoney(ca.fc_total)
             data['fcof_category'] = ca.fcof_category
-            return render(request, 'FacilityUI/risk_summary/fullyNormalConsequence.html', {'page':'fullyConse', 'data': data, 'proposalID':proposalID, 'ass':rwAss,'info':request.session,'noti':noti,'countnoti':countnoti,'count':count})
+            return render(request, 'FacilityUI/risk_summary/fullyNormalConsequence.html', {'page':'fullyConse', 'data': data, 'proposalID':proposalID, 'ass':rwAss,'info':request.session,'noti':noti,'countnoti':countnoti,'count':count,'countveri':countveri})
     except:
         raise Http404
 def RiskChart(request, proposalID):
+    siteid = models.Sites.objects.filter(userID_id=request.session['id'])[0].siteid
+    faci = models.Facility.objects.get(siteid=siteid)
+    countveri = models.Verification.objects.filter(facility=faci.facilityid).filter(Is_active=0).count()
     noti = models.ZNotification.objects.all().filter(id_user=request.session['id'])
     countnoti = noti.filter(state=0).count()
     count = models.Emailto.objects.filter(Q(Emailt=models.ZUser.objects.filter(id=request.session['id'])[0].email),
@@ -2737,7 +2806,7 @@ def RiskChart(request, proposalID):
                       chart.risktarget,chart.risktarget,chart.risktarget,chart.risktarget]
         endLabel = date2Str.date2str(date2Str.dateFuture(assessmentDate, 15))
         content = {'page': 'riskChart', 'label': dataLabel, 'data':dataChart, 'target':dataTarget, 'endLabel':endLabel, 'proposalname':rwAssessment.proposalname,
-                   'proposalID':rwAssessment.id, 'componentID':rwAssessment.componentid_id,'noti':noti,'countnoti':countnoti,'count':count}
+                   'proposalID':rwAssessment.id, 'componentID':rwAssessment.componentid_id,'noti':noti,'countnoti':countnoti,'count':count,'countveri':countveri}
         return render(request, 'FacilityUI/risk_summary/riskChart.html', content)
     except:
         raise Http404
@@ -2747,6 +2816,9 @@ def ExportExcel(request, index, type):
     except:
         raise Http404
 def upload(request, siteID):
+    siteid = models.Sites.objects.filter(userID_id=request.session['id'])[0].siteid
+    faci = models.Facility.objects.get(siteid=siteid)
+    countveri = models.Verification.objects.filter(facility=faci.facilityid).filter(Is_active=0).count()
     noti = models.ZNotification.objects.all().filter(id_user=request.session['id'])
     countnoti = noti.filter(state=0).count()
     count = models.Emailto.objects.filter(Q(Emailt=models.ZUser.objects.filter(id=request.session['id'])[0].email),
@@ -2768,8 +2840,11 @@ def upload(request, siteID):
     except:
         raise Http404
 
-    return render(request, 'FacilityUI/facility/uploadData.html', {'siteID': siteID, 'showcontent': showcontent,'noti':noti,'countnoti':countnoti,'count':count,'info':request.session})
+    return render(request, 'FacilityUI/facility/uploadData.html', {'siteID': siteID, 'showcontent': showcontent,'noti':noti,'countnoti':countnoti,'count':count,'info':request.session,'countveri':countveri})
 def uploadInspPlan(request, siteID):
+    siteid = models.Sites.objects.filter(userID_id=request.session['id'])[0].siteid
+    faci = models.Facility.objects.get(siteid=siteid)
+    countveri = models.Verification.objects.filter(facility=faci.facilityid).filter(Is_active=0).count()
     noti = models.ZNotification.objects.all().filter(id_user=request.session['id'])
     countnoti = noti.filter(state=0).count()
     count = models.Emailto.objects.filter(Q(Emailt=models.ZUser.objects.filter(id=request.session['id'])[0].email),
@@ -2790,7 +2865,7 @@ def uploadInspPlan(request, siteID):
     except Exception as e:
         print(e)
         raise Http404
-    return render(request, 'FacilityUI/facility/uploadData.html' ,{'siteID': siteID, 'showcontent': showcontent,'noti':noti,'countnoti':countnoti,'count':count,'info':request.session})
+    return render(request, 'FacilityUI/facility/uploadData.html' ,{'siteID': siteID, 'showcontent': showcontent,'noti':noti,'countnoti':countnoti,'count':count,'info':request.session,'countveri':countveri})
 
 ############### Dang Nhap Dang Suat #################
 def signin(request):
@@ -2861,9 +2936,14 @@ def base_forum(request):
             posts['views']=dataposts.views
             posts['reply']=models.ZComment.objects.all().filter(id_posts=dataposts.id).count()
             mang.append(posts)
+        siteid = models.Sites.objects.filter(userID_id=request.session['id'])[0].siteid
+        faci = models.Facility.objects.get(siteid=siteid)
+        countveri = models.Verification.objects.filter(facility=faci.facilityid).filter(Is_active=0).count()
         noti=models.ZNotification.objects.all().filter(id_user=request.session['id'])
         countnoti=noti.filter(state=0).count()
-        return render(request,'BaseUI/BaseForum/forumhome.html',{'data':mang, 'noti':noti, 'countnoti':countnoti,'info':request.session})
+        count = models.Emailto.objects.filter(Q(Emailt=models.ZUser.objects.filter(id=request.session['id'])[0].email),
+                                          Q(Is_see=0)).count()
+        return render(request,'BaseUI/BaseForum/forumhome.html',{'data':mang, 'noti':noti, 'countnoti':countnoti,'countveri':countveri,'countveri':countveri,'info':request.session})
     else:
         return redirect('home')
 def posts_forum(request,postID):
@@ -2884,7 +2964,7 @@ def posts_forum(request,postID):
         id_user=models.ZPosts.objects.all().filter(id=postID)[0].id_user #Lấy ID người đăng bài
         title_post = models.ZPosts.objects.all().filter(id=postID)[0].title
         if request.session['id']!=id_user:
-            noti=models.ZNotification(id_user=id_user,subject=request.session['name'],content=' đã phản hồi bài viết ', object=title_post,link=postID,time=datetime.now())
+            noti=models.ZNotification(id_user=id_user,subject=request.session['name'],content=' đã phản hồi bài viết ', object=title_post,link=postID,time=datetime.now(),state=0)
             noti.save()
 
     comment=models.ZComment.objects.all().filter(id_posts=postID)#Lấy dữ liệu comment của this post
@@ -2894,12 +2974,20 @@ def posts_forum(request,postID):
         cmt['name']=models.ZUser.objects.all().filter(id=data.id_user)[0].name
         cmt['content']=data.content
         datacmt.append(cmt)#mang chua Du lieu cac comment
+    siteid = models.Sites.objects.filter(userID_id=request.session['id'])[0].siteid
+    faci = models.Facility.objects.get(siteid=siteid)
+    countveri = models.Verification.objects.filter(facility=faci.facilityid).filter(Is_active=0).count()
     noti = models.ZNotification.objects.all().filter(id_user=request.session['id'])
     countnoti = noti.filter(state=0).count()
-    return render(request,'BaseUI/BaseForum/forumposts.html',{'data':a,'nameuserpost':nameuserpost,'datacmt':datacmt,'session':request.session,'noti':noti, 'countnoti':countnoti,'info':request.session})
+    count = models.Emailto.objects.filter(Q(Emailt=models.ZUser.objects.filter(id=request.session['id'])[0].email),
+                                          Q(Is_see=0)).count()
+    return render(request,'BaseUI/BaseForum/forumposts.html',{'data':a,'nameuserpost':nameuserpost,'datacmt':datacmt,'session':request.session,'noti':noti,'countveri':countveri,'countnoti':countnoti,'info':request.session,'countveri':countveri})
 
 ################## Tin nhan Email ###################
 def MessagesInbox(request):
+    siteid = models.Sites.objects.filter(userID_id=request.session['id'])[0].siteid
+    faci = models.Facility.objects.get(siteid=siteid)
+    countveri = models.Verification.objects.filter(facility=faci.facilityid).filter(Is_active=0).count()
     datacontent = models.Emailto.objects.filter(Emailt=models.ZUser.objects.filter(id=request.session['id'])[0].email)
     noti = models.ZNotification.objects.all().filter(id_user=request.session['id'])
     countnoti = noti.filter(state=0).count()
@@ -2932,8 +3020,11 @@ def MessagesInbox(request):
     except Exception as e:
         print(e)
         raise Http404
-    return render(request,'Messages/Messages_Inbox.html',{'page':'messagesInbox', 'datacontent':datacontent,'info':request.session,'noti':noti,'countnoti':countnoti,'count':count})
+    return render(request,'Messages/Messages_Inbox.html',{'page':'messagesInbox','datacontent':datacontent,'info':request.session,'noti':noti,'countnoti':countnoti,'count':count,'countveri':countveri})
 def Email_Message_sent(request):
+    siteid = models.Sites.objects.filter(userID_id=request.session['id'])[0].siteid
+    faci = models.Facility.objects.get(siteid=siteid)
+    countveri = models.Verification.objects.filter(facility=faci.facilityid).filter(Is_active=0).count()
     datacontent = models.Emailsent.objects.filter(Emails=models.ZUser.objects.filter(id=request.session['id'])[0].email)
     noti = models.ZNotification.objects.all().filter(id_user=request.session['id'])
     countnoti = noti.filter(state=0).count()
@@ -2962,69 +3053,99 @@ def Email_Message_sent(request):
     except Exception as e:
         print(e)
         raise Http404
-    return render(request, 'Messages/Messages_Sent.html', {'page':'messagesSent', 'datacontent':datacontent,'info':request.session,'noti':noti,'countnoti':countnoti,'count':count})
+    return render(request, 'Messages/Messages_Sent.html', {'page':'messagesSent', 'datacontent':datacontent,'info':request.session,'noti':noti,'countnoti':countnoti,'count':count,'countveri':countveri})
 
 ################# Help #################
 def Help(requset):
+    siteid = models.Sites.objects.filter(userID_id=request.session['id'])[0].siteid
+    faci = models.Facility.objects.get(siteid=siteid)
+    countveri = models.Verification.objects.filter(facility=faci.facilityid).filter(Is_active=0).count()
     noti = models.ZNotification.objects.all().filter(id_user=requset.session['id'])
     countnoti = noti.filter(state=0).count()
     count = models.Emailto.objects.filter(Q(Emailt=models.ZUser.objects.filter(id=requset.session['id'])[0].email),
                                           Q(Is_see=0)).count()
-    return render(requset,'help/help.html',{'page':'home','info':requset.session,'count':count,'noti':noti,'countnoti':countnoti})
+    return render(requset,'help/help.html',{'page':'home','info':requset.session,'count':count,'noti':noti,'countnoti':countnoti,'countveri':countveri})
 def Help_Usermanual_Citizen(request):
+    siteid = models.Sites.objects.filter(userID_id=request.session['id'])[0].siteid
+    faci = models.Facility.objects.get(siteid=siteid)
+    countveri = models.Verification.objects.filter(facility=faci.facilityid).filter(Is_active=0).count()
     noti = models.ZNotification.objects.all().filter(id_user=request.session['id'])
     countnoti = noti.filter(state=0).count()
     count = models.Emailto.objects.filter(Q(Emailt=models.ZUser.objects.filter(id=request.session['id'])[0].email),
                                           Q(Is_see=0)).count()
-    return render(request, 'help/User_Manual/help_Citizen.html',{'page':'userManual','info':request.session,'count':count,'noti':noti,'countnoti':countnoti})
+    return render(request, 'help/User_Manual/help_Citizen.html',{'page':'userManual','info':request.session,'count':count,'noti':noti,'countnoti':countnoti,'countveri':countveri})
 def Help_Usermanual_Business(request):
+    siteid = models.Sites.objects.filter(userID_id=request.session['id'])[0].siteid
+    faci = models.Facility.objects.get(siteid=siteid)
+    countveri = models.Verification.objects.filter(facility=faci.facilityid).filter(Is_active=0).count()
     noti = models.ZNotification.objects.all().filter(id_user=request.session['id'])
     countnoti = noti.filter(state=0).count()
     count = models.Emailto.objects.filter(Q(Emailt=models.ZUser.objects.filter(id=request.session['id'])[0].email),
                                           Q(Is_see=0)).count()
-    return render(request, 'help/User_Manual/help_Business.html',{'page':'userManual','info':request.session,'count':count,'noti':noti,'countnoti':countnoti})
+    return render(request, 'help/User_Manual/help_Business.html',{'page':'userManual','info':request.session,'count':count,'noti':noti,'countnoti':countnoti,'countveri':countveri})
 def Help_Usermanual_Manager(request):
+    siteid = models.Sites.objects.filter(userID_id=request.session['id'])[0].siteid
+    faci = models.Facility.objects.get(siteid=siteid)
+    countveri = models.Verification.objects.filter(facility=faci.facilityid).filter(Is_active=0).count()
     noti = models.ZNotification.objects.all().filter(id_user=request.session['id'])
     countnoti = noti.filter(state=0).count()
     count = models.Emailto.objects.filter(Q(Emailt=models.ZUser.objects.filter(id=request.session['id'])[0].email),
                                           Q(Is_see=0)).count()
-    return render(request, 'help/User_Manual/help_Manager.html',{'page':'userManual','info':request.session,'count':count,'noti':noti,'countnoti':countnoti})
+    return render(request, 'help/User_Manual/help_Manager.html',{'page':'userManual','info':request.session,'count':count,'noti':noti,'countnoti':countnoti,'countveri':countveri})
 def Help_AccountManagement_LoginPass(request):
+    siteid = models.Sites.objects.filter(userID_id=request.session['id'])[0].siteid
+    faci = models.Facility.objects.get(siteid=siteid)
+    countveri = models.Verification.objects.filter(facility=faci.facilityid).filter(Is_active=0).count()
     noti = models.ZNotification.objects.all().filter(id_user=request.session['id'])
     countnoti = noti.filter(state=0).count()
     count = models.Emailto.objects.filter(Q(Emailt=models.ZUser.objects.filter(id=request.session['id'])[0].email),
                                           Q(Is_see=0)).count()
-    return render(request,'help/Account_Management/Login_and_Password.html',{'page':'accountManager','info':request.session,'count':count,'noti':noti,'countnoti':countnoti})
+    return render(request,'help/Account_Management/Login_and_Password.html',{'page':'accountManager','info':request.session,'count':count,'noti':noti,'countnoti':countnoti,'countveri':countveri})
 def Help_AccountManagement_PerInfo(request):
+    siteid = models.Sites.objects.filter(userID_id=request.session['id'])[0].siteid
+    faci = models.Facility.objects.get(siteid=siteid)
+    countveri = models.Verification.objects.filter(facility=faci.facilityid).filter(Is_active=0).count()
     noti = models.ZNotification.objects.all().filter(id_user=request.session['id'])
     countnoti = noti.filter(state=0).count()
     count = models.Emailto.objects.filter(Q(Emailt=models.ZUser.objects.filter(id=request.session['id'])[0].email),
                                           Q(Is_see=0)).count()
-    return render(request,'help/Account_Management/Personal_Information.html',{'page':'accountManager','info':request.session,'count':count,'noti':noti,'countnoti':countnoti})
+    return render(request,'help/Account_Management/Personal_Information.html',{'page':'accountManager','info':request.session,'count':count,'noti':noti,'countnoti':countnoti,'countveri':countveri})
 def Help_AccountManagement_AccessDownload(request):
+    siteid = models.Sites.objects.filter(userID_id=request.session['id'])[0].siteid
+    faci = models.Facility.objects.get(siteid=siteid)
+    countveri = models.Verification.objects.filter(facility=faci.facilityid).filter(Is_active=0).count()
     noti = models.ZNotification.objects.all().filter(id_user=request.session['id'])
     countnoti = noti.filter(state=0).count()
     count = models.Emailto.objects.filter(Q(Emailt=models.ZUser.objects.filter(id=request.session['id'])[0].email),
                                           Q(Is_see=0)).count()
-    return render(request,'help/Account_Management/Access_and_Download_Information.html',{'page':'accountManager','info':request.session,'count':count,'noti':noti,'countnoti':countnoti})
+    return render(request,'help/Account_Management/Access_and_Download_Information.html',{'page':'accountManager','info':request.session,'count':count,'noti':noti,'countnoti':countnoti,'countveri':countveri})
 def Help_AccountManagement_Notification(request):
+    siteid = models.Sites.objects.filter(userID_id=request.session['id'])[0].siteid
+    faci = models.Facility.objects.get(siteid=siteid)
+    countveri = models.Verification.objects.filter(facility=faci.facilityid).filter(Is_active=0).count()
     noti = models.ZNotification.objects.all().filter(id_user=request.session['id'])
     countnoti = noti.filter(state=0).count()
     count = models.Emailto.objects.filter(Q(Emailt=models.ZUser.objects.filter(id=request.session['id'])[0].email),
                                           Q(Is_see=0)).count()
-    return render(request,'help/Account_Management/Notification.html',{'page':'accountManager','info':request.session,'count':count,'noti':noti,'countnoti':countnoti})
+    return render(request,'help/Account_Management/Notification.html',{'page':'accountManager','info':request.session,'count':count,'noti':noti,'countnoti':countnoti,'countveri':countveri})
 def Policies_Reports(request):
+    siteid = models.Sites.objects.filter(userID_id=request.session['id'])[0].siteid
+    faci = models.Facility.objects.get(siteid=siteid)
+    countveri = models.Verification.objects.filter(facility=faci.facilityid).filter(Is_active=0).count()
     noti = models.ZNotification.objects.all().filter(id_user=request.session['id'])
     countnoti = noti.filter(state=0).count()
     count = models.Emailto.objects.filter(Q(Emailt=models.ZUser.objects.filter(id=request.session['id'])[0].email),
                                           Q(Is_see=0)).count()
-    return render(request,'help/Policies_Reports.html',{'page':'policiesReports','info':request.session,'count':count,'noti':noti,'countnoti':countnoti})
+    return render(request,'help/Policies_Reports.html',{'page':'policiesReports','info':request.session,'count':count,'noti':noti,'countnoti':countnoti,'countveri':countveri})
 def Private_Safe(request):
+    siteid = models.Sites.objects.filter(userID_id=request.session['id'])[0].siteid
+    faci = models.Facility.objects.get(siteid=siteid)
+    countveri = models.Verification.objects.filter(facility=faci.facilityid).filter(Is_active=0).count()
     noti = models.ZNotification.objects.all().filter(id_user=request.session['id'])
     countnoti = noti.filter(state=0).count()
     count = models.Emailto.objects.filter(Q(Emailt=models.ZUser.objects.filter(id=request.session['id'])[0].email),
                                           Q(Is_see=0)).count()
-    return render(request,'help/Private_Safe.html',{'page':'privateSafe','info':request.session,'count':count,'noti':noti,'countnoti':countnoti})
+    return render(request,'help/Private_Safe.html',{'page':'privateSafe','info':request.session,'count':count,'noti':noti,'countnoti':countnoti,'countveri':countveri})
 
 ################ Dang ki tai khoan ####################
 def AccountCitizen(request):
@@ -4166,7 +4287,7 @@ def VeriFullyDamageFactorMana(request, proposalID):
     noti = models.ZNotification.objects.all().filter(id_user=request.session['id'])
     countnoti = noti.filter(state=0).count()
     count = models.Emailto.objects.filter(Q(Emailt=models.ZUser.objects.filter(id=request.session['id'])[0].email),
-                                          Q(Is_see=0)).count()
+                                          Q(Is_see=0)).count()                                    
     try:
         df = models.RwFullPof.objects.get(id= proposalID)
         rwAss = models.RwAssessment.objects.get(id= proposalID)
@@ -4381,9 +4502,15 @@ def VerificationHome(request):
         array.append(cont)
         for con in cont:
             print(con.Verification.id)
-
-    return render(request,'ManagerUI/verification_requirments/VerificationContent.html',{'page':'verification','veri':veri,'faci':faci,'cont':cont, 'ct':ct, 'arr':array})
-
+    if '_check' in request.POST:
+        veriCheck_ID = request.POST.get('_check')
+        return redirect('VerificationCheck',verifiID=veriCheck_ID)
+    return render(request,'ManagerUI/verification_requirments/VerificationContent.html',{'veri':veri,'faci':faci,'cont':cont, 'ct':ct, 'arr':array})
+def VerificationCheck(request, verifiID):
+    veri = models.Verification.objects.get(id = verifiID)
+    veri.Is_active = 1
+    veri.save()
+    return HttpResponse("Da Xem")
 
 ################ Citizen UI control ###################
 def citizen_home(request):

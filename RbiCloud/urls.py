@@ -104,6 +104,7 @@ urlpatterns = [
     path('proposalManaVeri/<int:proposalID>/damage-factor/', views.VeriFullyDamageFactorMana, name='veridamgeFactorMana'),
     path('proposalManaVeri/<int:proposalID>/fully-consequence/',views.VeriFullyConsequenceMana, name='verifullyConsequenceMana'),
     path('verification/',views.VerificationHome,name='VerificationHome'),
+    path('verification/<int:verifiID>/Check',views.VerificationCheck,name='VerificationCheck'),
     ######################### Citizen UI ##############################
     path('citizen/', views.citizen_home, name= 'citizenHome'),
     path('facilityCitizen/display/<int:siteID>/',views.ListfacilityCitizen, name='facilityCitizen'),

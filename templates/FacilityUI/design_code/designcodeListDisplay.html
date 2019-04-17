@@ -1,4 +1,4 @@
-{% extends 'BaseUI/BaseFacility/baseDesigncode.html' %}
+{% extends 'BaseUI/BaseFacility/baseFacility.html' %}
 
 <!------------ BLOCK MENU --------------->
 {% block listdesign %}{% url 'designcodeDisplay' siteID %}{% endblock %}
@@ -33,7 +33,7 @@
             </table>
 
 
-            {#          Pagination div  #}
+            {# Pagination div  #}
             <div>
                 {% if obj.has_other_pages %}
               <ul class="pagination">

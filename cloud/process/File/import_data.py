@@ -4,6 +4,7 @@ from django.core.wsgi import get_wsgi_application
 os.environ['DJANGO_SETTINGS_MODULE'] = 'RbiCloud.settings'
 application = get_wsgi_application()
 
+from cloud.process.RBI import fastCalulate as ReCalculate
 from xlrd import open_workbook
 from django.shortcuts import Http404
 from cloud import models
@@ -377,8 +378,9 @@ def processAssessment(ws):
 
                         rwInputCa = models.RwInputCaLevel1(id = rwAss)
                         rwInputCa.save()
-
                         listProposal.append(rwAss)
+
+
         elif ncol == 24:
             for row in range(1, nrow):
                 if ws.cell(row, 0).value and ws.cell(row, 1).value and ws.cell(row, 2).value and ws.cell(row,
@@ -415,8 +417,8 @@ def processAssessment(ws):
 
                         rwInputTank = models.RwInputCaTank(id= rwAss)
                         rwInputTank.save()
-
                         listProposal.append(rwAss)
+
     except Exception as e:
         print("Exception at Assessment")
         print(e)
@@ -868,6 +870,7 @@ def importPlanProcess(filename):
             processStream2(ws3)
             processMaterial(ws4)
             processCoating(ws5)
+
     except Exception as e:
         print("Exception at import")
         print(e)

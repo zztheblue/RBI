@@ -17,6 +17,7 @@
             <img src="{% static 'image/logo/cloud.png' %}">
             <p>Yêu cầu nhập đúng Site và Facility</p>
             <p>File History yêu cầu nhập đúng Component và Equipment </p>
+            <p>Lưu ý: Sau khi Upload file PlanProcess cần tiến hành Recalculate lại</p>
         </div>
         </div>
         <div class="row">
@@ -69,7 +70,7 @@
             var parrent = document.getElementById('parent');
             var div = document.createElement('div');
             var img = document.createElement('img');
-            img.src = '{% static 'image/loading/Pacman-1s-100px.gif' %}';
+            img.src = '{% static "image/loading/Pacman-1s-100px.gif" %}';
             div.style.cssText = "class=row;";
             div.appendChild(img);
             parrent.appendChild(div);
